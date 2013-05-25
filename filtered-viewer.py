@@ -47,6 +47,9 @@ def dot2graph(dot):
     graph = {}
     first = True
     for l in dot:
+        l = l.strip()
+        if not l:
+            continue
         if first:
             first = False
             continue
@@ -60,8 +63,11 @@ def dot2graph(dot):
             graph.setdefault(src, {}).setdefault("edges_to", []).append(dst)
             graph.setdefault(dst, {})
         else:
-            n, attrs = l.split("[", 1)
-            attrs = "[" + attrs
+            n = l
+            attrs = ""
+            if "[" in l:
+                n, attrs = l.split("[", 1)
+                attrs = "[" + attrs
             graph.setdefault(n, {})["attrs"] = attrs
     return graph
 
